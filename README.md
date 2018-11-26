@@ -4,8 +4,16 @@ Billions of dollars are at stake! Play now a quantum mechanically enhanced dice 
 
 ## Installation
 
+To install the dependencies run:
+
 ```bash
 pipenv install
+```
+
+To enable the virtual environment run:
+
+```bash
+pipenv shell
 ```
 
 ## Run: QVM Server
@@ -30,34 +38,41 @@ libc.so.6 => /usr/lib/libc.so.6 (0x00007f8aaa928000)
 /lib64/ld-linux-x86-64.so.2 => /usr/lib64/ld-linux-x86-64.so.2(0x00007f8aaaed8000)
 ```
 
-## Run: `q-dice.py`
+## Run: `qdice.py`
 
-Simulates `1024` throws of a `9`-sided quantum dice, which has been implemented using `3` Hadamard gates: Sampling those gates results in `3` classical bits, which are then togheter interpreted as the binary representation of a single number in the range `[1..9]`.
+Simulates `1024` throws of a `8`-sided quantum dice, which has been implemented using `3` Hadamard gates: Sampling those gates results in `3` classical bits, which are then togheter interpreted as the binary representation of a single number in the range `[1..9]`.
 
 ```bash
-$ python q-dice.py
-#0001:[ 1.000 1.000 0.000 ] => 7;
-#0002:[ 1.000 1.000 0.000 ] => 7;
-#0003:[ 1.000 1.000 1.000 ] => 8;
-#0004:[ 0.000 0.000 1.000 ] => 2;
+$ python ./qdice.py --trials=1024 --hadamards=3
+#0001:[ 0 1 0 ] => 3;
+#0002:[ 1 0 1 ] => 6;
+#0003:[ 0 0 0 ] => 1;
+#0004:[ 0 0 0 ] => 1;
 ...
-#1021:[ 0.000 1.000 1.000 ] => 4;
-#1022:[ 0.000 0.000 1.000 ] => 2;
-#1023:[ 1.000 1.000 0.000 ] => 7;
-#1024:[ 1.000 0.000 1.000 ] => 6;
+#1021:[ 0 1 1 ] => 4;
+#1022:[ 1 1 0 ] => 7;
+#1023:[ 0 1 1 ] => 4;
+#1024:[ 0 1 0 ] => 3;
 ```
 
-The result of the `1024` throws is averaged for each bit and the corresponding number, providing a simple statistical check w.r.t. to the expected uniform distribution:
+The result of the `1024` throws is averaged for each bit and the corresponding number, providing a simple statistics, where the expected distribution is uniform:
 
 ```bash
-μ{⟨H(i)⟩}=[ 0.491 0.509 0.495 ], μ{∑H(i)*2^i}=4.478;
+μ{⟨H(i)⟩}=[ 0.48 0.52 0.41 ], μ{∑H(i)*2^i}=4.46;
 ```
 ```bash
-σ{⟨H(i)⟩}=[ 0.500 0.500 0.500 ], σ{∑H(i)*2^i}=4.500.
+σ{⟨H(i)⟩}=[ 0.50 0.50 0.50 ], σ{∑H(i)*2^i}=4.50.
 ```
 
-## QColor: Quantum Colors
-...
+## Run: `qcolor.py`
+
+Transforms the results of the random throws of a quantum dice into an RGB colored image, where the square root of the number of `trials` defines the height and width of the square image; hence `trials` should be a square number. The `simulate` flag controls whether a regular pseudo-random generator should be used to produce the throws.
+
+```bash
+$ python ./qcolor.py --trials=65536 [--simulate]
+```
+
+![Quantum Image](./img/qcolor-qvm.png)
 
 ## Copyright
 

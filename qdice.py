@@ -48,7 +48,7 @@ if __name__ == '__main__':
     sigma = std(rolls, axis=0)
 
     string = "#%0{0}d:[{1} ] => %0{2}d;".format(
-        digits(args.trials), args.hadamards*' %.2f', digits(2**args.hadamards))
+        digits(args.trials), args.hadamards*' %d', digits(2**args.hadamards))
     for i, roll in enumerate(rolls):
         print(string % (i+1, *roll, QDice.number(roll)))
 
