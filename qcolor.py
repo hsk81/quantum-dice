@@ -7,13 +7,15 @@ from pyquil.gates import H
 from matplotlib import pyplot as pp
 from numpy import array, random
 
+import argparse
+
 class QColor:
 
     def __init__(self, simulate=False):
 
         self.qvm = QVMConnection()
         self.sim = simulate
-    
+
     def run(self, trials=1, simulate=False):
 
         if self.sim:
@@ -28,7 +30,13 @@ class QColor:
 
 if __name__ == '__main__':
 
-    qcolor = QColor(simulate=True)
+    parser = argparse.ArgumentParser(
+        description='Produces a quantum image.')
+    parser.add_argument(
+        '-s', '--simulate', action='store_true')
+    args = parser.parse_args()
+
+    qcolor = QColor(simulate=args.simulate)
     trials = qcolor.run(trials=65536)
     r, g, b = array(trials).transpose()
     rgb = array([r,g,b]).reshape((256, 256, 3))
